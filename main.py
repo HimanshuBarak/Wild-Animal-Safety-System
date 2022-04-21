@@ -37,9 +37,20 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
     return img, objectInfo
 
+import requests
+
+def telegram_bot_sendtext1(bot_message):
+    print("inside")
+    bot_token="5334778869:AAEMf3uOw_9MYrlTP1-ozu0k5SDugfNpvH8"
+    bot_chatID="5290081135"
+    send_text='https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id='+ bot_chatID +  '&parse_mode=MarkdownV2&text=' + bot_message
+    response= requests.get(send_text)
+    return response.json
 
 def detect():
+    
     cap = cv2.VideoCapture('Videos/wild_Trim.mp4')
+    telegram_bot_sendtext1("elephant detected")
     while(cap.isOpened()):
         success, img = cap.read()
         img = cv2.resize(img, (1240, 680))
@@ -53,10 +64,12 @@ def detect():
         if (cv2.waitKey(3) & 0xFF == ord('q')):
             break
     cap.release()
+   
     cv2.destroyAllWindows()
 
 def detect1():
     cap = cv2.VideoCapture('Videos/Bear-1.mp4')
+    telegram_bot_sendtext1("bear detected")
     while(cap.isOpened()):
         success, img = cap.read()
         img = cv2.resize(img, (1240, 680))
@@ -70,6 +83,7 @@ def detect1():
         if (cv2.waitKey(3) & 0xFF == ord('q')):
             break
     cap.release()
+    
     cv2.destroyAllWindows()
 
 #dog
@@ -120,6 +134,7 @@ def index():
 
 @app.route('/elephant')
 def pedestrian_watch():
+    
     return render_template('elephant.html')
 
 @app.route('/bear')
